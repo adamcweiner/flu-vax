@@ -1,0 +1,184 @@
+[aweiner@n4034 ~]$ module load mafft
+[aweiner@n4034 ~]$ mafft -h
+
+/u/local/apps/mafft/7.222/gcc-4.9.3/bin/mafft: Cannot open -h.
+
+------------------------------------------------------------------------------
+  MAFFT v7.222 (2015/11/26)
+  http://mafft.cbrc.jp/alignment/software/
+  MBE 30:772-780 (2013), NAR 30:3059-3066 (2002)
+------------------------------------------------------------------------------
+High speed:
+  % mafft in > out
+  % mafft --retree 1 in > out (fast)
+
+High accuracy (for <~200 sequences x <~2,000 aa/nt):
+  % mafft --maxiterate 1000 --localpair  in > out (% linsi in > out is also ok)
+  % mafft --maxiterate 1000 --genafpair  in > out (% einsi in > out)
+  % mafft --maxiterate 1000 --globalpair in > out (% ginsi in > out)
+
+If unsure which option to use:
+  % mafft --auto in > out
+
+--op # :         Gap opening penalty, default: 1.53
+--ep # :         Offset (works like gap extension penalty), default: 0.0
+--maxiterate # : Maximum number of iterative refinement, default: 0
+--clustalout :   Output: clustal format, default: fasta
+--reorder :      Outorder: aligned, default: input order
+--quiet :        Do not report progress
+--thread # :     Number of threads (if unsure, --thread -1)
+[aweiner@n4034 ~]$ ls
+H3N2_aligned_seqs.fa  H3N2_seqs.fa
+[aweiner@n4034 ~]$ head H3N2_aligned_seqs.fa
+[aweiner@n4034 ~]$ rm H3N2_aligned_seqs.fa
+[aweiner@n4034 ~]$ mafft H3N2_seqs.fa > H3N2_aligned_seqs.fa
+
+nseq =  8665
+distance =  ktuples
+iterate =  0
+cycle =  2
+sparsepickup = 0
+nguidetree = 2
+nthread = 0
+sueff_global = 0.100000
+done.
+scoremtx = 1
+Gap Penalty = -1.53, +0.00, +0.00
+
+tuplesize = 6, dorp = p
+
+
+Making a distance matrix ..
+
+There are 710 ambiguous characters.
+ 8601 / 8665
+done.
+
+Constructing a UPGMA tree ...
+ 8660 / 8665
+done.
+
+WARNING: negative branch length -0.000000, step 8038-0
+WARNING: negative branch length -0.000000, step 8297-0
+Progressive alignment 1/2...
+STEP  8664 / 8664 d
+done.
+
+Making a distance matrix from msa..
+ 8660 / 8665
+done.
+
+Constructing a UPGMA tree ...
+ 8660 / 8665
+done.
+
+Progressive alignment 2/2...
+STEP  8664 / 8664 d
+done.
+
+disttbfast (aa) Version 7.222 alg=A, model=BLOSUM62, 1.53, -0.00, -0.00, noshift, amax=0.0
+0 thread(s)
+
+
+Strategy:
+ FFT-INS-2 (Not tested.)
+ ?
+
+If unsure which option to use, try 'mafft --auto input > output'.
+For more information, see 'mafft --help', 'mafft --man' and the mafft page.
+
+The default gap scoring scheme has been changed in version 7.110 (2013 Oct).
+It tends to insert more gaps into gap-rich regions than previous versions.
+To disable this change, add the --leavegappyregion option.
+
+[aweiner@n4034 ~]$ ls
+H3N2_aligned_seqs.fa  H3N2_seqs.fa
+[aweiner@n4034 ~]$ head H3N2_aligned_seqs.fa
+>AUT17376 A/swine/Mexico/10598944/2014 2014/05/25 HA
+MKAIIAFSCILCLIYAQKIPRSDNSMTTLCLGHHAVPNGTLVKTITDDQIEVTNATELVQ
+SSSTDRICNSPHQILDGKNCTLIDALLGDPHCDDFQDREWDLFVERSTAYSSCYPYYVPD
+YASLRSLVASSGTLEFTQESFNWAGVAQNGSSYACRRGS-DNSFFSRLNWLYNLNHKYPA
+LNVTMLNNDDFDKLYIWGVHHPGTDKDQISLYVHASGGVTVSTKRSQQTVIPNIGSRPWV
+RGVSSIISIYWTIVKPGDILLINSTGNLIAPRGYFKIQSGKSSIMRSDAPIGKCNSECIT
+PNGSIPNSKPFQNVNRITYGACPRYVKQKTLKLATGMRNVPEKQTRGIFGAIAGFIENGW
+EGMVDGWYGFRHQNSEGTGQAADLKSTQAAINQITGKLNRVIEKTNEKFHQIEKEFSEVE
+GRIQDIEKYVEDTKIDLWSYNAELLVALENQHTIDLTDSEMNKLFERTRKQLRENAEDMG
+NGCLKIYHKCDNACIGSIRNGTYDHNVYRDEALNNRFQIKGVLLKSGYKDWILWISFAIS
+[aweiner@n4034 ~]$ tail H3N2_aligned_seqs.fa
+MKTVIALSYIFYLAFGQNLPGSENNAATLCLGHHTVPNGTMVKTITDDQIEVTNATELVQ
+NSSTGKICNNPHKILDGRDCTLIDALLGDPHCDVFQNETWDLFVERSNAFSNCYPYDVPD
+YASLRSIVASSGTLEFITEGLIWAGVTQNGGSGACKKGP-ANGFFSRLNWLTKSGNTYPV
+LNVTMPNNNNFDKLYIWGVHHPSTNQEQTSLYIQASGRVTVSTRRSQQTIIPNIGSRPLV
+RGQSGRISVYWTIVKPGDILVINSNGNLIAPRGYFKMHIGKSSIMRSDAPIDTCISECIT
+PNGSIPNEKPFQNVNKITYGACPKYIKQNTLKLATGMRNVPERQTRGLFGAIAGLIENGW
+EGMVDGWYGFRHQNSEGTGQAADLKSTQAAIDQINGKLNRVIEKTNEKFHQIEKEFSEVE
+GRIQDLERYVEDTKVDLWSYNAELLVALENQNTIDLTDSEMNKLFEKTRRQLRENAEDMG
+NGCFKIYHKCDNTCIESIRNGTYDHNIYRDEAVNNRFQIKGVELKSGYKDWILWISFAIS
+CFLLCVVLLGFIMWACQRG----N---IRCNICI
+
+
+--------------- now only using human sequences -------------------------------------
+
+[aweiner@n2002 ~]$ module load mafft
+[aweiner@n2002 ~]$ mafft human_seqs.fa > human_aligned_seqs.fa
+
+nseq =  7072
+distance =  ktuples
+iterate =  0
+cycle =  2
+sparsepickup = 0
+nguidetree = 2
+nthread = 0
+sueff_global = 0.100000
+done.
+scoremtx = 1
+Gap Penalty = -1.53, +0.00, +0.00
+
+tuplesize = 6, dorp = p
+
+
+Making a distance matrix ..
+
+There are 594 ambiguous characters.
+ 7001 / 7072
+done.
+
+Constructing a UPGMA tree ...
+ 7070 / 7072
+done.
+
+WARNING: negative branch length -0.000000, step 6862-0
+Progressive alignment 1/2...
+STEP  7071 / 7071 d
+done.
+
+Making a distance matrix from msa..
+ 7070 / 7072
+done.
+
+Constructing a UPGMA tree ...
+ 7070 / 7072
+done.
+
+Progressive alignment 2/2...
+STEP  7071 / 7071 d
+done.
+
+disttbfast (aa) Version 7.222 alg=A, model=BLOSUM62, 1.53, -0.00, -0.00, noshift, amax=0.0
+0 thread(s)
+
+
+Strategy:
+ FFT-INS-2 (Not tested.)
+ ?
+
+If unsure which option to use, try 'mafft --auto input > output'.
+For more information, see 'mafft --help', 'mafft --man' and the mafft page.
+
+The default gap scoring scheme has been changed in version 7.110 (2013 Oct).
+It tends to insert more gaps into gap-rich regions than previous versions.
+To disable this change, add the --leavegappyregion option.
+
+[aweiner@n2002 ~]$ ls
+H3N2_aligned_seqs.fa  H3N2_seqs.fa  human_aligned_seqs.fa  human_seqs.fa
+
