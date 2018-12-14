@@ -1,5 +1,5 @@
 from sequence_processing import trim
-from pymsa_material import SubstitutionMatrix, PAM250, FLU_sub
+from sub_matrix import SubstitutionMatrix, PAM250, FLU_sub
 import numpy as np
 from sklearn import manifold
 from sklearn.decomposition import PCA
