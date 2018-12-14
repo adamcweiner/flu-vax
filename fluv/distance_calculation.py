@@ -1,14 +1,18 @@
 from sequence_processing import trim
-from pymsa_material import SubstitutionMatrix, PAM250
+from pymsa_material import SubstitutionMatrix, PAM250, FLU_sub
 import numpy as np
 from sklearn import manifold
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 class Distance:
-    def __init__(self, seqFile):
+    def __init__(self, seqFile, subMat):
         self.labels, self.sequences = trim(seqFile)
-        self.M = PAM250()
+        self.subMat = subMat
+        if subMat is "PAM250":
+            self.M = PAM250()
+        elif subMat is "FLU":
+            self.M = FLU_sub()
         self.numSeq = self.sequences.shape[0]
 
         
@@ -21,9 +25,14 @@ class Distance:
             for ii in range(len(seq1)):
                 dist[ii] = self.M.get_distance(seq1[ii], seq2[ii])
             avg_dist = np.sum(dist) / 317.0
-            exp_dist = np.exp(avg_dist)
-            inv_dist = 1 / exp_dist # since 'K'->'K' gives a highly positive score
-
+            
+            # PAM250 distances are log-scaled... convert to true value
+            if self.subMat is "PAM250":
+                exp_dist = np.exp(avg_dist)
+            
+            # find inverse 'K'->'K' gives a highly positive score
+            inv_dist = 1 / exp_dist
+            
             return inv_dist
    
     def test_mat(self):

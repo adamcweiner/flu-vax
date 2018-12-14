@@ -108,7 +108,7 @@ class PAM250(SubstitutionMatrix):
 class FLU_sub(SubstitutionMatrix):
     """ Class implementing the FLU substitution matrix
     Reference: https://doi.org/10.1186/1471-2148-10-99 """
-    def __init__(self, gap_penalty=3.354626**, gap_character: str = '-'):
+    def __init__(self, gap_penalty=3.354626E-4, gap_character: str = '-'):
         super(FLU_sub, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \
             {('W', 'F'): 5.39392424532822, ('L', 'R'): 15.3000966197798, ('S', 'P'): 0.54225109402693, ('V', 'T'): 0.0743386, ('Q', 'Q'): 1.19562912226203, ('N', 'A'): 0.584852305649886,
