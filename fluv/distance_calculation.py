@@ -23,17 +23,13 @@ class Distance:
         else:
             dist = np.zeros((len(seq1)))
             for ii in range(len(seq1)):
-                dist[ii] = self.M.get_distance(seq1[ii], seq2[ii])
+                temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
+                if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
+                    temp_dist = np.exp(temp_dist)
+                dist[ii] = 1 / temp_dist # large distances have small values in matrices
             avg_dist = np.sum(dist) / 317.0
-            
-            # PAM250 distances are log-scaled... convert to true value
-            if self.subMat is "PAM250":
-                exp_dist = np.exp(avg_dist)
-            
-            # find inverse 'K'->'K' gives a highly positive score
-            inv_dist = 1 / exp_dist
-            
-            return inv_dist
+
+            return avg_dist
    
     def test_mat(self):
         """ function is the same as "dist_mat()" except that it only looks at first 10 sequences
