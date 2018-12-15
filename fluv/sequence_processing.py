@@ -8,10 +8,10 @@ def trim(seqFile):
     homeDir = cwd[1:5]
     if (homeDir == 'home'):
         print('using path from server to load sequences')
-        pathToFile = os.path.join("/home","adamw","final-project-adamcweiner", str(seqFile)) #aretha server
+        pathToFile = os.path.join("/home","adamw","flu-vax","fluv", str(seqFile)) #aretha server
     else:
         print('using path from windows machine to load sequences')
-        pathToFile = os.path.join("C:\\","Users","Adam","Documents","final-project-adamcweiner", str(seqFile))  #windows machine
+        pathToFile = os.path.join("C:\\","Users","Adam","Documents","flu-vax", str(seqFile))  #windows machine
     
     allSeqs = []
     allLabels = []

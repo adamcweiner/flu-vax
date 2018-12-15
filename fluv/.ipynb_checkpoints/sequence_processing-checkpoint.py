@@ -3,23 +3,15 @@ import os
 import numpy as np
 import random
 
-def trim():
+def trim(seqFile):
     cwd = os.getcwd()
     homeDir = cwd[1:5]
     if (homeDir == 'home'):
-        print('hi')
-        pathToFile = os.path.join("/home","adamw","final-project-adamcweiner","time_aligned_seqs.fa") #aretha server
+        print('using path from server to load sequences')
+        pathToFile = os.path.join("/home","adamw","flu-vax","fluv", str(seqFile)) #aretha server
     else:
-        print('hello')
-        pathToFile = os.path.join("C:\\","Users","Adam","Documents","final-project-adamcweiner", "time_aligned_seqs.fa")  #windows machine
-    
-    #try:
-    #    print('hello')
-    #    pathToFile = os.path.join("C:\\","Users","Adam","Documents","final-project-adamcweiner", "time_aligned_seqs.fa")  #windows machine
-    #except:
-    #    print('hi')
-    #    pathToFile = os.path.join("home","adamw","final-project-adamcweiner","time_aligned_seqs.fa") #aretha server
-        
+        print('using path from windows machine to load sequences')
+        pathToFile = os.path.join("C:\\","Users","Adam","Documents","flu-vax", str(seqFile))  #windows machine
     
     allSeqs = []
     allLabels = []
@@ -37,9 +29,5 @@ def trim():
         for j in range(0,sequence.shape[1]):
             if (sequence[i,j] == 'J'):
                 sequence[i,j] = random.choice(['I', 'L'])
-            elif (sequence[i,j] == 'B'):
-                sequence[i,j] = random.choice(['D', 'N'])
-            elif (sequence[i,j] == 'Z'):
-                sequence[i,j] = random.choice(['E', 'Q'])
     
     return (label, sequence)
