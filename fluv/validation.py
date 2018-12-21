@@ -13,8 +13,7 @@ class historical_validation:
         
     def calc_PAM(self):
         """ Caclulate distances between circulating strain and vaccine in each given year. """
-        D_vax_PAM = Distance("vaccine_strains.fa", "PAM250")
-        D_circ_PAM = Distance("circulating_strains.fa", "PAM250")
+        D_PAM = Distance("PAM250")
         
         distances = np.zeros((self.size))
         for ii in range(self.size):

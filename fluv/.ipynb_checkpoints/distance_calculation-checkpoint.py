@@ -6,17 +6,16 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 class Distance:
-    def __init__(self, seqFile, subMat):
-        self.labels, self.sequences = trim(seqFile)
+    def __init__(self, subMat):
+        """ Initialize class based on which substitution matrix is used. """
         self.subMat = subMat
         if subMat is "PAM250":
             self.M = PAM250()
         elif subMat is "FLU":
             self.M = FLU_sub()
-        self.numSeq = self.sequences.shape[0]
-
         
     def seq_dist(self, seq1, seq2):
+        """ Calculate distance between two different sequences. """
         if (len(seq1) != len(seq2)):
             print('the sequences are of different length')
             return -1
@@ -31,10 +30,12 @@ class Distance:
 
             return avg_dist
    
-    def test_mat(self):
+    def test_mat(self, seqFile):
         """ function is the same as "dist_mat()" except that it only looks at first 10 sequences
         in order to get a proof of concept for all my functions before scaling up to the full dataset 
         """
+        labels, sequences = trim(seqFile)
+
         testMat = np.zeros((1000,1000))
         print('calculating the test distance matrix based on PAM250')
         for i in range(0,1000):
@@ -45,12 +46,16 @@ class Distance:
 
         return testMat
         
-    def dist_mat(self):
-        distMat = np.zeros((self.numSeq, self.numSeq))
+    def dist_mat(self, seqFile):
+        """ Calculates all pairwise sequence distances for all sequences in a given file. """
+        labels, sequences = trim(seqFile)
+        numSeq = sequences.shape[0]
+
+        distMat = np.zeros((numSeq, numSeq))
         print('calculating the full distance matrix based on PAM250')
         for i in range(0,self.numSeq):
             for j in range(i,self.numSeq):
-                distMat[i,j] = self.seq_dist(self.sequences[i], self.sequences[j])
+                distMat[i,j] = self.seq_dist(sequences[i], sequences[j])
                 distMat[j,i] = distMat[i,j] # plug in mirror image values
 
         return distMat
