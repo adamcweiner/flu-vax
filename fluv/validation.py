@@ -7,9 +7,9 @@ class historical_validation:
     def __init__(self):
         """ Load sequences and vaccine efficacy scores according to literature. """
         print("class being initialized")
-        # _, _ = trim("NA_2012_aligned_seq.fa") # test that sequence_processing still works
-        self.vax_labels, self.vax_seqs = trim("vaccine_strains.fa")
+        _, _ = trim("NA_2012_aligned_seq.fa") # test that sequence_processing still works
         self.circ_labels, self.circ_seqs = trim("circulating_strains.fa")
+        self.vax_labels, self.vax_seqs = trim("vaccine_strains.fa")
         # TODO: add array of measured vaccine efficacies... make sure indexing matches sequence ordering
         assert(len(self.vax_seqs) == len(self.circ_seqs))
         self.size = len(self.vax_seqs)

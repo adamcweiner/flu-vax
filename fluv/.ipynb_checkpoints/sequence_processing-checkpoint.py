@@ -19,15 +19,18 @@ def trim(seqFile):
             allSeqs.append(seq_record.seq)
             allLabels.append(seq_record.id)
     
+    print((allSeqs))
+    
     seqMat = np.array(allSeqs)
     label = np.array(allLabels)
     
+    print(seqMat)
     numSeq = seqMat.shape[0]
     print('numSeq = ' +str(numSeq))
     # find label of sequences that are smaller than 317
     for ii in range(numSeq):
-        print(seqMat[ii])
-        print(seqMat[ii, 0])
+        #print(seqMat[ii])
+        #print(seqMat[ii, 0])
         if len(seqMat[ii]) < 317:
             print(label[ii])
     
