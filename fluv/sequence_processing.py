@@ -18,26 +18,16 @@ def trim(seqFile):
     for seq_record in SeqIO.parse(pathToFile, """fasta"""):
             allSeqs.append(seq_record.seq)
             allLabels.append(seq_record.id)
+
+    numSeq = len(allSeqs)
+    sequence = np.empty((numSeq, 317), dtype=str) # create an empty array of strings
+    for ii in range(numSeq):
+        for jj in range(317): # truncate at 317 residues to focus on HA1 region
+            sequence[ii, jj] = allSeqs[ii][jj]
     
-    print("size of sequencing file " + str(len(allSeqs)))
-    print("first letter of first sequence " + str(allSeqs[0][0]))
-    
-    seqMat = np.array(allSeqs)
     label = np.array(allLabels)
     
-    print(seqMat)
-    
-    
-    numSeq = seqMat.shape[0]
-    print('numSeq = ' +str(numSeq))
-    # find label of sequences that are smaller than 317
-    for ii in range(numSeq):
-        #print(seqMat[ii])
-        #print(seqMat[ii, 0])
-        if len(seqMat[ii]) < 317:
-            print(label[ii])
-    
-    sequence = seqMat[:, 0:317]
+    print(sequence)
     
     # filtering out residues not included in PAM250 pymsa distance matrix (http://www.matrixscience.com/blog/non-standard-amino-acid-residues.html)
     for i in range(0, sequence.shape[0]):
