@@ -1,4 +1,5 @@
 from sequence_processing import trim
+from distance_calculation import Distance
 
 
 class historical_validation:
@@ -7,8 +8,16 @@ class historical_validation:
         self.vax_labels, self.vax_seqs = trim("vaccine_strains.fa")
         self.circ_labels, self.circ_seqs = trim("circulating_strains.fa")
         # TODO: add array of measured vaccine efficacies... make sure indexing matches sequence ordering
+        assert(len(vax_seqs) == len(circ_seqs))
+        self.size = len(vax_seqs)
         
     def calc_PAM(self):
-        """"""
+        """ Caclulate distances between circulating strain and vaccine in each given year. """
+        D_vax_PAM = Distance("vaccine_strains.fa", "PAM250")
+        D_circ_PAM = Distance("circulating_strains.fa", "PAM250")
+        
+        distances = np.zeros((self.size))
+        for ii in range(self.size):
+            distances[ii] = 
     
     
