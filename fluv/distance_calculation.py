@@ -53,8 +53,8 @@ class Distance:
 
         distMat = np.zeros((numSeq, numSeq))
         print('calculating the full distance matrix based on PAM250')
-        for i in range(0,self.numSeq):
-            for j in range(i,self.numSeq):
+        for i in range(0,numSeq):
+            for j in range(i,numSeq):
                 distMat[i,j] = self.seq_dist(sequences[i], sequences[j])
                 distMat[j,i] = distMat[i,j] # plug in mirror image values
 
