@@ -1,6 +1,14 @@
 from sequence_processing import trim
 
-vax_labels, vax_seqs = trim("vaccine_strains.fa")
-print(vax_labels)
-print(vax_seqs)
-circ_labels, circ_seqs = trim("circulating_strains.fa")
+
+class historical_validation:
+    def __init__(self):
+        """ Load sequences and vaccine efficacy scores according to literature. """
+        self.vax_labels, self.vax_seqs = trim("vaccine_strains.fa")
+        self.circ_labels, self.circ_seqs = trim("circulating_strains.fa")
+        # TODO: add array of measured vaccine efficacies... make sure indexing matches sequence ordering
+        
+    def calc_PAM(self):
+        """"""
+    
+    
