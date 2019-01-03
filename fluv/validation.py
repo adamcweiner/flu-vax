@@ -11,8 +11,9 @@ class historical_validation:
         print("done trimming NA_2012 sequences")
         self.circ_labels, self.circ_seqs = trim("circulating_strains.fa")
         self.vax_labels, self.vax_seqs = trim("vaccine_strains.fa")
-        # TODO: add array of measured vaccine efficacies... make sure indexing matches sequence ordering
-        assert(len(self.vax_seqs) == len(self.circ_seqs))
+        self.year = np.array([1971, 1972, 1973, 1975, 1984, 1985, 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003])
+        self.eff = np.array([7, 15, 11, -3, -6, -2, 17, -5, 59, 38, 25, 45, 28, -17, 34, 43, 55, 12]) # https://doi.org/10.1016/j.vaccine.2006.01.010
+        assert(len(self.vax_seqs) == len(self.circ_seqs) == len(self.year) == len(self.eff))
         self.size = len(self.vax_seqs)
 
     def calc_PAM(self):
@@ -36,5 +37,6 @@ class historical_validation:
             distances[ii] = D_FLU.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
         
         print(distances)
+        print(self.eff)
         return distances # this is temporary
         # add plot where x-axis is `self.eff` and y-axis is `distances`... maybe use `circ_labels` as legend
