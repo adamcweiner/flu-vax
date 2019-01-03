@@ -24,6 +24,9 @@ def trim(seqFile):
     for ii in range(numSeq):
         for jj in range(317): # truncate at 317 residues to focus on HA1 region
             sequence[ii, jj] = allSeqs[ii][jj]
+            #if sequence[ii, jj] == "J":
+            #    print("caught a J in new loop")
+            #    sequence[ii, jj] = random.choice(['I', 'L'])
     
     label = np.array(allLabels)
     
@@ -33,6 +36,7 @@ def trim(seqFile):
     for i in range(0, sequence.shape[0]):
         for j in range(0,sequence.shape[1]):
             if (sequence[i,j] == 'J'):
+                print("caught at J in original loop")
                 sequence[i,j] = random.choice(['I', 'L'])
     
     return (label, sequence)
