@@ -24,19 +24,21 @@ def trim(seqFile):
     for ii in range(numSeq):
         for jj in range(317): # truncate at 317 residues to focus on HA1 region
             sequence[ii, jj] = allSeqs[ii][jj]
-            #if sequence[ii, jj] == "J":
-            #    print("caught a J in new loop")
-            #    sequence[ii, jj] = random.choice(['I', 'L'])
+            if sequence[ii, jj] is "J":
+                print("caught a J in new loop")
+                sequence[ii, jj] = random.choice(['I', 'L'])
     
     label = np.array(allLabels)
     
     print(sequence)
+    print("sequence.shape[0]: " + str(sequence.shape[0]))
+    print("sequence.shape[1]: " + str(sequence.shape[1]))
     
     # filtering out residues not included in PAM250 pymsa distance matrix (http://www.matrixscience.com/blog/non-standard-amino-acid-residues.html)
-    for i in range(0, sequence.shape[0]):
-        for j in range(0,sequence.shape[1]):
-            if (sequence[i,j] == 'J'):
-                print("caught at J in original loop")
-                sequence[i,j] = random.choice(['I', 'L'])
+    #for i in range(sequence.shape[0]):
+    #    for j in range(sequence.shape[1]):
+    #        if sequence[i,j] is "J":
+    #            print("caught at J in original loop")
+    #            sequence[i,j] = random.choice(['I', 'L'])
     
     return (label, sequence)
