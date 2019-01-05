@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from sequence_processing import trim
 from distance_calculation import Distance
 
@@ -23,10 +24,8 @@ class historical_validation:
         distances = np.zeros((self.size))
         for ii in range(self.size):
             distances[ii] = D_PAM.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
-        
-        print(distances)
-        return distances # this is temporary
-        # add plot where x-axis is `self.eff` and y-axis is `distances`... maybe use `circ_labels` as legend
+
+        return distances
 
     def calc_FLU(self):
         """ Caclulate distances between circulating strain and vaccine in each given year. Using FLU sub. matrix here."""
@@ -35,8 +34,19 @@ class historical_validation:
         distances = np.zeros((self.size))
         for ii in range(self.size):
             distances[ii] = D_FLU.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
-        
-        print(distances)
-        print(self.eff)
-        return distances # this is temporary
-        # add plot where x-axis is `self.eff` and y-axis is `distances`... maybe use `circ_labels` as legend
+
+        return distances
+
+    def plot(self):
+        """ Generates plots using different calc functions. """
+        flu_dist = self.calc_FLU()
+        pam_dist = self.calc_PAM()
+
+        plt.figure(figsize=(48,24)) # set up figure for plotting, width and height in inches
+        plt.scatter(self.eff, flu_dist, 'b', label="FLU")
+        plt.scatter(self.eff, pam_dist, 'g', label="PAM")
+        plt.title("Predicted vs. Measured Vaccine Efficacy")
+        plt.xlabel("Measured Efficacy")
+        plt.ylabel("Predicted Efficacy")
+        plt.legend()
+        plt.savefig('validation.pdf')
