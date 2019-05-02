@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from sequence_processing import trim
-from distance_calculation import Distance
+from distance_calculation import Distance, Hamming_dist
 
 
 class historical_validation:
@@ -37,18 +37,30 @@ class historical_validation:
             distances[ii] = D_FLU.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
 
         return distances
+    
+    def calc_Ham(self):
+        """ Calculates distances between circulating and vaccine strain via Hamming distance. Each mistmatch is +1 and each match is 0. """
+        distances = np.zeros((self.size))
+        for ii in range(self.size):
+            distances[ii] = Hamming_dist(self.vax_seqs[ii], self.circ_seqs[ii])
+        
+        return distances
 
     def plot(self):
         """ Generates plots using different calc functions. """
         flu_dist = self.calc_FLU()
         pam_dist = self.calc_PAM()
+        ham_dist = self.calc_Ham()
         print("FLU dist", flu_dist)
+        print("HAM dist", ham_dist)
 
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
         cmap_1 = cm.autumn(np.linspace(0, 1, self.size))
         cmap_2 = cm.winter(np.linspace(0, 1, self.size))
+        cmap_3 = cm.summer(np.linspace(0, 1, self.size))
         plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label="FLU")
-        plt.scatter(self.eff, np.log(pam_dist), c=cmap_2, label="PAM")
+        plt.scatter(self.eff, np.log(pam_dist), c=cmap_2, label="PAM250")
+        plt.scatter(self.eff, ham_dist, c=cmap_3, label="Hamming")
         plt.title("Predicted vs. Measured Vaccine Efficacy")
         plt.xlabel("Measured Efficacy")
         plt.ylabel("Predicted Efficacy")

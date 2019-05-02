@@ -59,6 +59,10 @@ class Distance:
                 distMat[j,i] = distMat[i,j] # plug in mirror image values
 
         return distMat
-    
 
-    
+def Hamming_dist(seq1, seq2):
+    """ Calculates the hamming distance between any two strains. This is an alternative to using a substitution matrix. """
+    assert len(seq1) == len(seq2)  # sequences must be of same length
+
+    dist = sum([1 if seq1[i] != seq2[i] else 0 for i in range(len(seq1))])
+    return dist
