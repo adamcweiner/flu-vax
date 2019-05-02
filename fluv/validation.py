@@ -41,10 +41,11 @@ class historical_validation:
         """ Generates plots using different calc functions. """
         flu_dist = self.calc_FLU()
         pam_dist = self.calc_PAM()
+        print("FLU dist", flu_dist)
 
-        plt.figure(figsize=(48,24)) # set up figure for plotting, width and height in inches
-        plt.scatter(self.eff, flu_dist, 'b', label="FLU")
-        plt.scatter(self.eff, pam_dist, 'g', label="PAM")
+        plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
+        plt.scatter(self.eff, flu_dist, c='b', label="FLU")
+        plt.scatter(self.eff, pam_dist, c='g', label="PAM")
         plt.title("Predicted vs. Measured Vaccine Efficacy")
         plt.xlabel("Measured Efficacy")
         plt.ylabel("Predicted Efficacy")
