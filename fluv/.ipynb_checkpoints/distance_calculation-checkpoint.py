@@ -14,7 +14,7 @@ class Distance:
         elif subMat is "FLU":
             self.M = FLU_sub()
         
-    def seq_dist(self, seq1, seq2):
+    def seq_dist(self, seq1, seq2, hybrid=False):
         """ Calculate distance between two different sequences. """
         if (len(seq1) != len(seq2)):
             print('the sequences are of different length')
@@ -22,13 +22,16 @@ class Distance:
         else:
             dist = np.zeros((len(seq1)))
             for ii in range(len(seq1)):
-                temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
-                if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
-                    temp_dist = np.exp(temp_dist)
-                dist[ii] = 1 / temp_dist # large distances have small values in matrices
-            avg_dist = np.sum(dist) / 317.0
+                if hybrid and seq1[ii] == seq2[ii]:  # can keep entry as 0 if we're using the hybrid distance
+                    continue
+                else:
+                    temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
+                    if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
+                        temp_dist = np.exp(temp_dist)
+                    dist[ii] = 1 / temp_dist # large distances have small values in matrices so I need to find inverse
+            avg_dist = np.sum(dist) / len(seq1)
 
-            return avg_dist
+            return float(avg_dist)
    
     def test_mat(self, seqFile):
         """ function is the same as "dist_mat()" except that it only looks at first 10 sequences
@@ -59,6 +62,10 @@ class Distance:
                 distMat[j,i] = distMat[i,j] # plug in mirror image values
 
         return distMat
-    
 
-    
+def Hamming_dist(seq1, seq2):
+    """ Calculates the hamming distance between any two strains. This is an alternative to using a substitution matrix. """
+    assert len(seq1) == len(seq2)  # sequences must be of same length
+
+    dist = sum([1 if seq1[i] != seq2[i] else 0 for i in range(len(seq1))])
+    return dist
