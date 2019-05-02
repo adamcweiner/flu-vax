@@ -7,12 +7,17 @@ class SubstitutionMatrix:
         self.gap_penalty = gap_penalty
         self.gap_character = gap_character
 
-    def get_distance(self, char1, char2) -> float:
+    def get_distance(self, char1, char2, hybrid=False) -> float:
         """ Returns the distance between two characters.
         :param char1: First character.
         :param char2: Second character.
+        :param hybrid: returns distance of 0 when characters match if this param is set to True.
         :return: the distance value """
 
+        if hybrid:
+            if char1 == char2:
+                return 0
+        
         if char1 is self.gap_character and char2 is self.gap_character:
             distance = 1
         elif char1 is self.gap_character or char2 is self.gap_character:
@@ -105,7 +110,7 @@ class PAM250(SubstitutionMatrix):
              ('F', 'L'): 2, ('X', 'Q'): -1, ('B', 'B'): 3}
 
     def get_distance_matrix(self) -> dict:
-        return self.distance_matrix
+        return np.exp(self.distance_matrix)
 
 class FLU_sub(SubstitutionMatrix):
     """ Class implementing the FLU substitution matrix

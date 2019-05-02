@@ -23,8 +23,8 @@ class Distance:
             dist = np.zeros((len(seq1)))
             for ii in range(len(seq1)):
                 temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
-                if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
-                    temp_dist = np.exp(temp_dist)
+                #if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
+                #    temp_dist = np.exp(temp_dist)
                 dist[ii] = 1 / temp_dist # large distances have small values in matrices
             avg_dist = np.sum(dist) / len(seq1)
 
