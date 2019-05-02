@@ -68,4 +68,4 @@ def Hamming_dist(seq1, seq2):
     assert len(seq1) == len(seq2)  # sequences must be of same length
 
     dist = sum([1 if seq1[i] != seq2[i] else 0 for i in range(len(seq1))])
-    return dist
+    return dist / len(seq1)
