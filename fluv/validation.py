@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 from sequence_processing import trim
 from distance_calculation import Distance
 
@@ -44,8 +45,10 @@ class historical_validation:
         print("FLU dist", flu_dist)
 
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
-        plt.scatter(self.eff, flu_dist, c='b', label="FLU")
-        plt.scatter(self.eff, pam_dist, c='g', label="PAM")
+        cmap_1 = cm.autumn(np.linspace(0, 1, self.size))
+        cmap_2 = cm.winter(np.linspace(0, 1, self.size))
+        plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label="FLU")
+        plt.scatter(self.eff, np.log(pam_dist), c=cmap_2, label="PAM")
         plt.title("Predicted vs. Measured Vaccine Efficacy")
         plt.xlabel("Measured Efficacy")
         plt.ylabel("Predicted Efficacy")
