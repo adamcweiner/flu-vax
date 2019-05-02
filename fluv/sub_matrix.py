@@ -1,4 +1,5 @@
 """ Code for substitution matrices is inspired by https://github.com/benhid/pyMSA/blob/master/pymsa/core/substitution_matrix.py """
+import numpy as np
 
 class SubstitutionMatrix:
     """ Class representing a substitution matrix, such as PAM250, Blosum62, etc. """
@@ -7,17 +8,12 @@ class SubstitutionMatrix:
         self.gap_penalty = gap_penalty
         self.gap_character = gap_character
 
-    def get_distance(self, char1, char2, hybrid=False) -> float:
+    def get_distance(self, char1, char2) -> int:
         """ Returns the distance between two characters.
         :param char1: First character.
         :param char2: Second character.
-        :param hybrid: returns distance of 0 when characters match if this param is set to True.
         :return: the distance value """
 
-        if hybrid:
-            if char1 == char2:
-                return 0
-        
         if char1 is self.gap_character and char2 is self.gap_character:
             distance = 1
         elif char1 is self.gap_character or char2 is self.gap_character:
@@ -41,7 +37,8 @@ class PAM250(SubstitutionMatrix):
     def __init__(self, gap_penalty=-8, gap_character: str = '-'):
         super(PAM250, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \
-            {('W', 'F'): 0, ('L', 'R'): -3, ('S', 'P'): 1, ('V', 'T'): 0, ('Q', 'Q'): 4, ('N', 'A'): 0, ('Z', 'Y'): -4,
+            {"name": "PAM250",
+             ('W', 'F'): 0, ('L', 'R'): -3, ('S', 'P'): 1, ('V', 'T'): 0, ('Q', 'Q'): 4, ('N', 'A'): 0, ('Z', 'Y'): -4,
              ('W', 'R'): 2, ('Q', 'A'): 0, ('S', 'D'): 0, ('H', 'H'): 6, ('S', 'H'): -1, ('H', 'D'): 1, ('L', 'N'): -3,
              ('W', 'A'): -6, ('Y', 'M'): -2, ('G', 'R'): -3, ('Y', 'I'): -1, ('Y', 'E'): -4, ('B', 'Y'): -3,
              ('Y', 'A'): -3,
@@ -110,7 +107,7 @@ class PAM250(SubstitutionMatrix):
              ('F', 'L'): 2, ('X', 'Q'): -1, ('B', 'B'): 3}
 
     def get_distance_matrix(self) -> dict:
-        return np.exp(self.distance_matrix)
+        return self.distance_matrix
 
 class FLU_sub(SubstitutionMatrix):
     """ Class implementing the FLU substitution matrix
@@ -119,7 +116,8 @@ class FLU_sub(SubstitutionMatrix):
         super(FLU_sub, self).__init__(gap_penalty, gap_character)
         # 'B' values are averages of 'N' & 'D'. 'Z' values are averages of 'E' & 'Q'. 'X' is an unknown (kept same as in PAM250)
         self.distance_matrix = \
-            {('W', 'F'): 5.39392424532822, ('L', 'R'): 15.3000966197798, ('S', 'P'): 0.54225109402693, ('V', 'T'): 0.0743386, ('Q', 'Q'): 1.19562912226203, ('N', 'A'): 0.584852305649886, ('Z', 'Y'): 0.1965496447776915,
+            {"name": "FLU",
+             ('W', 'F'): 5.39392424532822, ('L', 'R'): 15.3000966197798, ('S', 'P'): 0.54225109402693, ('V', 'T'): 0.0743386, ('Q', 'Q'): 1.19562912226203, ('N', 'A'): 0.584852305649886, ('Z', 'Y'): 0.1965496447776915,
              ('W', 'R'): 0.0998554972524385, ('Q', 'A'): 1.4842345032161, ('S', 'D'): 0.135481232622983, ('H', 'H'): 0.243190142026506, ('S', 'H'): 0.368713573381758, ('H', 'D'): 0.0140859174993809, ('L', 'N'): 2.6468479652886,
              ('W', 'A'): 0.0182892882245349, ('Y', 'M'): 4.90484223478739, ('G', 'R'): 1.87956993845887, ('Y', 'I'): 14.3940521944257, ('Y', 'E'): 0.285047948309311, ('B', 'Y'): 0.0102575172450253,
              ('Y', 'A'): 3.53200526987468,

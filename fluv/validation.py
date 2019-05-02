@@ -18,23 +18,23 @@ class historical_validation:
         assert(len(self.vax_seqs) == len(self.circ_seqs) == len(self.year) == len(self.eff))
         self.size = len(self.vax_seqs)
 
-    def calc_PAM(self):
+    def calc_PAM(self, hybrid=False):
         """ Caclulate distances between circulating strain and vaccine in each given year. Using PAM250 matrix here. """
         D_PAM = Distance("PAM250")
 
         distances = np.zeros((self.size))
         for ii in range(self.size):
-            distances[ii] = D_PAM.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
+            distances[ii] = D_PAM.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii], hybrid)
 
         return distances
 
-    def calc_FLU(self):
+    def calc_FLU(self, hybrid=False):
         """ Caclulate distances between circulating strain and vaccine in each given year. Using FLU sub. matrix here."""
         D_FLU = Distance("FLU")
 
         distances = np.zeros((self.size))
         for ii in range(self.size):
-            distances[ii] = D_FLU.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii])
+            distances[ii] = D_FLU.seq_dist(self.vax_seqs[ii], self.circ_seqs[ii], hybrid)
 
         return distances
     
@@ -51,22 +51,28 @@ class historical_validation:
         flu_dist = self.calc_FLU()
         pam_dist = self.calc_PAM()
         ham_dist = self.calc_Ham()
-        print("FLU dist", flu_dist)
-        print("HAM dist", ham_dist)
+
+        # distance calculations that only reference sub matrix if two characters don't match
+        hyb_flu_dist = self.calc_FLU(hybrid=True)
+        hyb_pam_dist = self.calc_PAM(hybrid=True)
+        print("FLU hybrid", hyb_flu_dist)
+        print("PAM hybrid", hyb_pam_dist)
 
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
         cmap_1 = cm.autumn(np.linspace(0, 1, self.size))
         cmap_2 = cm.winter(np.linspace(0, 1, self.size))
         cmap_3 = cm.summer(np.linspace(0, 1, self.size))
-        plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label="FLU")
+        plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label="standard")
+        plt.scatter(self.eff, np.log(hyb_flu_dist), c=cmap_2, label="hybrid")
         plt.title("FLU Distance Prediction Performance")
         plt.xlabel("Observed Efficacy")
-        plt.ylabel("Relative Distance")
+        plt.ylabel("Relative Distance (log scaled)")
         plt.legend()
         plt.savefig('Figures/FLU_validation.pdf')
         
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
-        plt.scatter(self.eff, np.log(pam_dist), c=cmap_2, label="PAM250")
+        plt.scatter(self.eff, pam_dist, c=cmap_1, label="standard")
+        plt.scatter(self.eff, hyb_pam_dist, c=cmap_2, label="hybrid")
         plt.title("PAM250 Distance Prediction Performance")
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance")
@@ -74,7 +80,7 @@ class historical_validation:
         plt.savefig('Figures/PAM_validation.pdf')
         
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
-        plt.scatter(self.eff, ham_dist, c=cmap_3, label="Ham")
+        plt.scatter(self.eff, ham_dist, c=cmap_1, label="Ham")
         plt.title("Hamming Distance Prediction Performance")
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance")

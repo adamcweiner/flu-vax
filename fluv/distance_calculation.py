@@ -14,7 +14,7 @@ class Distance:
         elif subMat is "FLU":
             self.M = FLU_sub()
         
-    def seq_dist(self, seq1, seq2):
+    def seq_dist(self, seq1, seq2, hybrid=False):
         """ Calculate distance between two different sequences. """
         if (len(seq1) != len(seq2)):
             print('the sequences are of different length')
@@ -22,10 +22,13 @@ class Distance:
         else:
             dist = np.zeros((len(seq1)))
             for ii in range(len(seq1)):
-                temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
-                #if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
-                #    temp_dist = np.exp(temp_dist)
-                dist[ii] = 1 / temp_dist # large distances have small values in matrices
+                if hybrid and seq1[ii] == seq2[ii]:  # can keep entry as 0 if we're using the hybrid distance
+                    continue
+                else:
+                    temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
+                    if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
+                        temp_dist = np.exp(temp_dist)
+                    dist[ii] = 1 / temp_dist # large distances have small values in matrices so I need to find inverse
             avg_dist = np.sum(dist) / len(seq1)
 
             return float(avg_dist)
