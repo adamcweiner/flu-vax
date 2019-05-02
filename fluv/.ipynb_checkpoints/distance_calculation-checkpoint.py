@@ -23,7 +23,7 @@ class Distance:
             dist = np.zeros((len(seq1)))
             for ii in range(len(seq1)):
                 if hybrid and seq1[ii] == seq2[ii]:  # can keep entry as 0 if we're using the hybrid distance
-                    continue
+                    dist[ii] = 1E-10  # set to a very small number other than 0 in order to prevent log-scale error
                 else:
                     temp_dist = self.M.get_distance(seq1[ii], seq2[ii])
                     if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values

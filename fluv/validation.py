@@ -65,10 +65,16 @@ class historical_validation:
         cmap_2 = cm.winter(np.linspace(0, 1, self.size))
         cmap_3 = cm.summer(np.linspace(0, 1, self.size))
         
+        # plot standard form of FLU matrix
         slope, intercept, r_value, p_value, std_err = stats.linregress(self.eff , np.log(flu_dist))
         plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label=r"$\mathrm{standard: R^{2} = }$"+str(round(r_value**2, 3)))
         abline(slope, intercept, plt, cmap_1[0])
-        plt.scatter(self.eff, np.log(hyb_flu_dist), c=cmap_2, label="hybrid")
+        
+        # plot hybrid form of FLU matrix
+        slope, intercept, r_value, p_value, std_err = stats.linregress(self.eff , np.log(hyb_flu_dist))
+        plt.scatter(self.eff, np.log(hyb_flu_dist), c=cmap_2, label=r"$\mathrm{hybrid: R^{2} = }$"+str(round(r_value**2, 3)))
+        abline(slope, intercept, plt, cmap_2[0])
+
         plt.title("FLU Distance Prediction Performance")
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance (log scaled)")
