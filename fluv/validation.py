@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.stats as stats
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from sequence_processing import trim
@@ -51,6 +52,7 @@ class historical_validation:
         flu_dist = self.calc_FLU()
         pam_dist = self.calc_PAM()
         ham_dist = self.calc_Ham()
+        print("Hamming distance:", ham_dist)
 
         # distance calculations that only reference sub matrix if two characters don't match
         hyb_flu_dist = self.calc_FLU(hybrid=True)
@@ -62,7 +64,10 @@ class historical_validation:
         cmap_1 = cm.autumn(np.linspace(0, 1, self.size))
         cmap_2 = cm.winter(np.linspace(0, 1, self.size))
         cmap_3 = cm.summer(np.linspace(0, 1, self.size))
-        plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label="standard")
+        
+        slope, intercept, r_value, p_value, std_err = stats.linregress(self.eff , np.log(flu_dist))
+        plt.scatter(self.eff, np.log(flu_dist), c=cmap_1, label=r"$\mathrm{standard: R^{2} = }$"+str(round(r_value**2, 3)))
+        abline(slope, intercept, plt, cmap_1[0])
         plt.scatter(self.eff, np.log(hyb_flu_dist), c=cmap_2, label="hybrid")
         plt.title("FLU Distance Prediction Performance")
         plt.xlabel("Observed Efficacy")
@@ -86,3 +91,10 @@ class historical_validation:
         plt.ylabel("Relative Distance")
         plt.legend()
         plt.savefig('Figures/Hamming_validation.pdf')
+
+def abline(slope, intercept, ax, color):
+    """Plot a line from slope and intercept"""
+    axes = ax.gca()
+    x_vals = np.array(axes.get_xlim())
+    y_vals = intercept + slope * x_vals
+    ax.plot(x_vals, y_vals, '--', c=color)
