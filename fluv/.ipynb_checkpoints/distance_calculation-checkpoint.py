@@ -26,9 +26,9 @@ class Distance:
                 if self.subMat is "PAM250": # convert log-scaled PAM250 values to true values
                     temp_dist = np.exp(temp_dist)
                 dist[ii] = 1 / temp_dist # large distances have small values in matrices
-            avg_dist = np.sum(dist) / 317.0
+            avg_dist = np.sum(dist) / len(seq1)
 
-            return avg_dist
+            return float(avg_dist)
    
     def test_mat(self, seqFile):
         """ function is the same as "dist_mat()" except that it only looks at first 10 sequences

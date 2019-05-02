@@ -7,7 +7,7 @@ class SubstitutionMatrix:
         self.gap_penalty = gap_penalty
         self.gap_character = gap_character
 
-    def get_distance(self, char1, char2) -> int:
+    def get_distance(self, char1, char2) -> float:
         """ Returns the distance between two characters.
         :param char1: First character.
         :param char2: Second character.
