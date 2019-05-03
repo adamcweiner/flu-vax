@@ -63,7 +63,6 @@ class historical_validation:
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
         cmap_1 = cm.autumn(np.linspace(0, 1, self.size))
         cmap_2 = cm.winter(np.linspace(0, 1, self.size))
-        cmap_3 = cm.summer(np.linspace(0, 1, self.size))
         
         # plot standard form of FLU matrix
         slope, intercept, r_value, p_value, std_err = stats.linregress(self.eff , np.log(flu_dist))
