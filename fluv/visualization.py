@@ -57,6 +57,7 @@ def generate_MDS(dist_mat, method, out_file):
     for ii in range(0,numSeq_2012):
         color_array[ii,:] = cmap(ii / float(numSeq_2012))
 
+    plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
     pts = plt.scatter(pos[:, 0], pos[:, 1], color=color_array, cmap=autumn_map, s=10, alpha=0.5)
     plt.scatter(pos[1, 0], pos[1, 1], color='b', marker='*', s=50, alpha=0.9, label=('vaccine target: ' + str(labels_2012[1])))
     plt.legend()
@@ -86,6 +87,7 @@ def generate_tSNE(dist_mat, method, out_file):
     for ii in range(0,numSeq_2012):
         color_array[ii,:] = cmap(ii / float(numSeq_2012))
 
+    plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
     pts = plt.scatter(tsne_pos[:, 0], tsne_pos[:, 1], color=color_array, cmap=autumn_map, s=10, alpha=0.5)
     plt.scatter(tsne_pos[1, 0], tsne_pos[1, 1], color='b', marker='*', s=50, alpha=0.9, label=('vaccine target: ' + str(labels_2012[1])))
 
