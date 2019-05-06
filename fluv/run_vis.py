@@ -11,4 +11,4 @@ for method in methods:
     print("generating tSNE plot")
     generate_tSNE(dist_mat, method, "Figures/tSNE_" + str(method))
     time_passed = (time.process_time())/60
-    print('{} plots generated in {:.3} minutes'.format(time_passed))
+    print('plots generated in', time_passed, 'minutes.')

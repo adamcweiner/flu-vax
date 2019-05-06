@@ -80,6 +80,12 @@ def generate_tSNE(dist_mat, method, out_file):
     print('Kullback-Leibler divergence after optimization: '+str(tsne_divergence))
     print('Number of iterations run: '+str(tsne_iter))
 
+    cmap = mpl.cm.autumn # more options found here: https://matplotlib.org/tutorials/colors/colormaps.html
+    autumn_map = plt.get_cmap('autumn')
+    color_array = np.zeros((numSeq_2012,4))
+    for ii in range(0,numSeq_2012):
+        color_array[ii,:] = cmap(ii / float(numSeq_2012))
+
     pts = plt.scatter(tsne_pos[:, 0], tsne_pos[:, 1], color=color_array, cmap=autumn_map, s=10, alpha=0.5)
     plt.scatter(tsne_pos[1, 0], tsne_pos[1, 1], color='b', marker='*', s=50, alpha=0.9, label=('vaccine target: ' + str(labels_2012[1])))
 
