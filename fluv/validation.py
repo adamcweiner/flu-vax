@@ -78,7 +78,7 @@ class historical_validation:
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance (log scaled)")
         plt.legend()
-        plt.savefig('Figures/FLU_validation.pdf')
+        plt.savefig('Figures/FLU_validation.png')
         
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
 
@@ -96,7 +96,7 @@ class historical_validation:
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance (log scaled)")
         plt.legend()
-        plt.savefig('Figures/PAM_validation.pdf')
+        plt.savefig('Figures/PAM_validation.png')
 
         plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
         
@@ -107,7 +107,7 @@ class historical_validation:
         plt.xlabel("Observed Efficacy")
         plt.ylabel("Relative Distance")
         plt.legend()
-        plt.savefig('Figures/Hamming_validation.pdf')
+        plt.savefig('Figures/Hamming_validation.png')
 
 def abline(slope, intercept, ax, color):
     """Plot a line from slope and intercept"""
