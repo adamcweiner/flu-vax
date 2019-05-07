@@ -49,16 +49,19 @@ class Distance:
 
         return testMat
         
-    def dist_mat(self, seqFile):
+    def dist_mat(self, seqFile, hybrid=False, hamming=False):
         """ Calculates all pairwise sequence distances for all sequences in a given file. """
         labels, sequences = trim(seqFile)
         numSeq = sequences.shape[0]
 
         distMat = np.zeros((numSeq, numSeq))
-        print('calculating the full distance matrix based on PAM250')
+        print('calculating the full distance matrix')
         for i in range(0,numSeq):
             for j in range(i,numSeq):
-                distMat[i,j] = self.seq_dist(sequences[i], sequences[j])
+                if hamming:  # use hamming distance if option is true
+                    distMat[i,j] =  Hamming_dist(sequences[i], sequences[j])
+                else:  # use substitution matrix otherwise (allow for hybrid option)
+                    distMat[i,j] = self.seq_dist(sequences[i], sequences[j], hybrid=hybrid)
                 distMat[j,i] = distMat[i,j] # plug in mirror image values
 
         return distMat
