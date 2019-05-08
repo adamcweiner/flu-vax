@@ -72,3 +72,15 @@ def Hamming_dist(seq1, seq2):
 
     dist = sum([1 if seq1[i] != seq2[i] else 0 for i in range(len(seq1))])
     return dist / len(seq1)
+
+def vax_dist(dist_mat, seqFile, vax_label):
+    """ Returns an array of distances between a given vaccine and all the strains in a file. """
+    labels, sequences = trim(seqFile)
+    
+    vax_ind = -1  # holder for index of vaccine
+    for i, label in enumerate(labels):
+        if label == vax_label:
+            vax_ind = i
+            break
+
+    return dist_mat[i]
