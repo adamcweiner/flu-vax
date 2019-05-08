@@ -97,3 +97,17 @@ def generate_tSNE(dist_mat, method, out_file):
     plt.grid(alpha=0.3)
     plt.title('HA1 H3N2 North America 2012 - tSNE - ' + str(method) + ' - KL divergence: ' + str(round(tsne_divergence, 3)))
     plt.savefig(out_file)
+
+def plot_vax_dist(dist_array, out_file):
+    """ Uses an array of distances b/w vaccine and strains to generate a scatter plot of distances. """
+    numSeq_2012 = dist_array.shape[0]
+    
+    cmap = mpl.cm.autumn # more options found here: https://matplotlib.org/tutorials/colors/colormaps.html
+    autumn_map = plt.get_cmap('autumn')
+    color_array = np.zeros((numSeq_2012,4))
+    for ii in range(0,numSeq_2012):
+        color_array[ii,:] = cmap(ii / float(numSeq_2012))
+
+    plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
+    pts = plt.scatter(np.linspace(1, 13, num=numSeq_2012), dist_array, color=color_array, cmap=autumn_map, s=10, alpha=0.5)
+    plt.savefig(out_file)
