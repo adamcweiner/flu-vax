@@ -98,7 +98,7 @@ def generate_tSNE(dist_mat, method, out_file):
     plt.title('HA1 H3N2 North America 2012 - tSNE - ' + str(method) + ' - KL divergence: ' + str(round(tsne_divergence, 3)))
     plt.savefig(out_file)
 
-def plot_vax_dist(dist_array, out_file):
+def plot_vax_dist(dist_array, vax_ind, method, out_file):
     """ Uses an array of distances b/w vaccine and strains to generate a scatter plot of distances. """
     numSeq_2012 = dist_array.shape[0]
     
@@ -108,6 +108,13 @@ def plot_vax_dist(dist_array, out_file):
     for ii in range(0,numSeq_2012):
         color_array[ii,:] = cmap(ii / float(numSeq_2012))
 
+    tps = np.linspace(1, 13, num=numSeq_2012)  # represents time of collection
+
     plt.figure(figsize=(8,5)) # set up figure for plotting, width and height in inches
-    pts = plt.scatter(np.linspace(1, 13, num=numSeq_2012), dist_array, color=color_array, cmap=autumn_map, s=10, alpha=0.5)
+    pts = plt.scatter(tps, dist_array, color=color_array, cmap=autumn_map, s=10, alpha=0.5)
+    plt.scatter(float((vax_ind/numSeq_2012)+1.0), dist_array[vax_ind], color='b', marker='*', s=50, alpha=0.9, label=('vaccine'))
+    plt.legend()    
+    plt.xlabel('Date of collection (month)')
+    plt.ylabel('Distance to vaccine')
+    plt.title('HA1 H3N2 North America 2012 - Vax Distance to Circulating Strains - ' + str(method))
     plt.savefig(out_file)
